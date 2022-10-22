@@ -1,0 +1,26 @@
+name: Install OpenCL
+author: KhrySystem
+description: Download and build OpenCL from source for use in Github workflow
+
+inputs:
+  opencl-version:
+    description: OpenCL version to target.
+    required: true
+  use-opencl-caching:
+    description: Use actions/cache to help development.
+    required: false
+    default: true
+  get-py-opencl:
+    description: Get Python OpenCL bindings. 
+    required: false
+    default: false
+    
+outputs:
+  opencl-root-dir:
+    description: Root path that OpenCL was installed to.
+    
+runs: 
+  using: node16
+  pre: setup.js
+  main: main.js
+  post: clean.js
