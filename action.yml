@@ -24,9 +24,10 @@ runs:
   steps:
   - if: ${{ runner.os }} == 'Linux'
     name: Install OpenGL
+    shell: bash
     run: |
       sudo apt-get install libglu1-mesa-dev freeglut3-dev mesa-common-dev
-      
+
   - if: ${{ inputs.cache }} == true
     id: opencl_cache
     name: Check OpenCL Cache
