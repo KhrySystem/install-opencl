@@ -9,9 +9,14 @@ on:
 jobs:
   test-linux:
     runs-on: ubuntu-20.04
-    
+
     steps:
       - uses: actions/checkout@v3
 
       - name: Run Action
         uses: ./
+        with:
+          version: v2022.09.30
+          cache: true
+          cmake_args: '-G"Unix Makefiles"'
+          path: opencl

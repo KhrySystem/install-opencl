@@ -37,10 +37,9 @@ runs:
       path: |
         ${{ inputs.path }}
         ${{ inputs.path }}.cache
-      key: _${{ runner.os }}_opencl${{ inputs.version }}_${{ inputs.path }}_
+      key: __${{ runner.os }}-opencl${{ inputs.version }}__
       restore-keys: |
-        _${{ runner.os }}_opencl${{ inputs.version }}__
-        __opencl__
+        __${{runner.os }}-opencl__
 
   - if: ${{ steps.opencl_cache.outputs.cache-hit != 'true' }}
     name: Download OpenCL
