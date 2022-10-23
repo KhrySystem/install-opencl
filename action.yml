@@ -37,13 +37,16 @@ runs:
 
   - if: ${{ steps.opencl_cache.outputs.cache-hit != 'true' }}
     name: Download OpenCL
+    shell: bash
     run: git clone --depth 1 --recursive --branch ${{ inputs.version }} https://github.com/KhronosGroup/OpenCL-SDK.git ${{ inputs.path }}.cache
 
   - name: Build OpenCL
+    shell: bash
     run: |
       cmake -S ${{ inputs.path }}.cache -B ${{ inputs.path }} ${{ inputs.cmake_args }}
       cmake --build ${{inputs.path }} --target install
 
   - name: Export Symbols
+    shell: bash
     run: |
       echo "OPENCL_ROOT=${{ inputs.path }}" >> $GITHUB_OUTPUT
