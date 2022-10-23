@@ -20,3 +20,16 @@ jobs:
           cache: true
           cmake_args: '-G"Unix Makefiles"'
           path: opencl
+
+  test-windows-2022:
+    runs-on: windows-2022
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Run Action
+      uses: ./
+      with:
+        version: v2022.09.30
+        cache: true
+        cmake_args: '-G"Visual Studio 17 2022'
+        path: opencl
