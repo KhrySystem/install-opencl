@@ -3,24 +3,47 @@ author: KhrySystem
 description: Download and build OpenCL from source for use in Github workflow
 
 inputs:
-  opencl-version:
-    description: OpenCL version to target.
+  version:
+    description: Describes a tagged branch of the OpenCL SDK. 
     required: true
-  use-opencl-caching:
-    description: Use actions/cache to help development.
+  cache:
+    description: Use @actions/cache to help development.
     required: false
     default: true
-  get-py-opencl:
-    description: Get Python OpenCL bindings. 
+  cmake_args:
+    description: The arguments to append onto the CMake build task.
     required: false
-    default: false
-    
-outputs:
-  opencl-root-dir:
-    description: Root path that OpenCL was installed to.
-    
-runs: 
-  using: node16
-  pre: setup.js
-  main: main.js
-  post: clean.js
+    default: ''
+  path:
+    description: Path to install OpenCL into.
+    required: false
+    default: ${{github.workspace}}/opencl-sdk
+  
+runs:
+  using: 'composite'
+  steps:
+  - if: ${{ inputs.cache }} == true
+    id: opencl_cache
+    name: Check OpenCL Cache
+    uses: actions/cache@v3
+    with:
+      path: |
+        ${{ inputs.path }}
+        ${{ inputs.path }}.cache
+      key: _${{ runner.os }}_opencl${{ inputs.version }}_${{ inputs.path }}_
+      restore-keys: |
+        _${{ runner.os }}_opencl${{ inputs.version }}__
+        __opencl__
+
+  - if: ${{ steps.opencl_cache.outputs.cache-hit != 'true' }}
+    name: Download OpenCL
+    runs: git clone --depth 1 --recursive --branch ${{ inputs.version }} https://github.com/KhronosGroup/OpenCL-SDK.git ${{ inputs.path }}.cache
+
+  - name: Build OpenCL
+    runs: |
+      cmake -S ${{ inputs.path }}.cache -B ${{ inputs.path }} ${{ inputs.cmake_args }}
+      cmake --build ${{inputs.path }} --target install
+
+  - name: Export Symbols
+    runs: |
+      echo "OPENCL_ROOT=${{ inputs.path }}" >> $GITHUB_OUTPUT
