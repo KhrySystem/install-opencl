@@ -26,7 +26,7 @@ runs:
     shell: bash
     run: |
       if [[ $RUNNER_OS == 'Linux' ]]; then
-        sudo apt-get install  libx11-dev libglu1-mesa-dev xorg-dev freeglut3-dev mesa-common-dev  libudev-dev
+        sudo apt-get install build-essential libgl1-mesa-dev libvulkan-dev libx11-xcb-dev libxcb-dri2-0-dev libxcb-glx0-dev libxcb-icccm4-dev libxcb-keysyms1-dev libxcb-randr0-dev libxrandr-dev libxxf86vm-dev mesa-common-dev
       fi
 
   - if: ${{ inputs.cache }} == true
