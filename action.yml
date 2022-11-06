@@ -44,7 +44,7 @@ runs:
   - if: ${{ steps.opencl_cache.outputs.cache-hit != 'true' }}
     name: Download OpenCL
     shell: bash
-    run: git clone --depth 1 --recursive --branch ${{ inputs.version }} https://github.com/KhronosGroup/OpenCL-SDK.git ${{ inputs.path }}.cache
+    run: git clone --recursive --branch ${{ inputs.version }} https://github.com/KhronosGroup/OpenCL-SDK.git ${{ inputs.path }}.cache
 
   - name: Build OpenCL
     shell: bash
