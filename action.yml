@@ -37,7 +37,7 @@ runs:
       path: |
         ${{ inputs.path }}
         ${{ inputs.path }}.cache
-      key: __${{ runner.os }}-opencl${{ inputs.version }}__
+      key: __${{ runner.os }}-opencl${{ inputs.version }}__${{ inputs.cmake-args }}
       restore-keys: |
         __${{runner.os }}-opencl__
 
