@@ -36,7 +36,6 @@ runs:
     with:
       path: |
         ${{ inputs.path }}
-        ${{ inputs.path }}.cache
       key: __${{ runner.os }}-opencl${{ inputs.version }}__${{ inputs.cmake-args }}
       restore-keys: |
         __${{runner.os }}-opencl__
@@ -55,4 +54,6 @@ runs:
   - name: Export Symbols
     shell: bash
     run: |
-      echo "OPENCL_ROOT=${{ inputs.path }}" >> $GITHUB_OUTPUT
+      echo "OpenCL_ROOT=${{ inputs.path }}" >> $GITHUB_OUTPUT
+      echo "OpenCL_INSTALL_DIR_ROOT=${{ inputs.path }}.cache/install/include" >> $GITHUB_OUTPUT
+      echo "OpenCL_LIBRARY=${{ inputs.path }}.cache/bin/opencl.lib" >> $GITHUB_OUTPUT
